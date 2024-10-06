@@ -2,9 +2,16 @@
 
 import { useState, useEffect } from 'react';
 
+interface Task {
+  _id: string;
+  title: string;
+  description: string;
+  status: string;
+}
+
 export default function TaskList() {
-  const [tasks, setTasks] = useState([]);
-  const [editTask, setEditTask] = useState(null);  // To track the task being edited
+  const [tasks, setTasks] = useState<Task[]>([]); // Specify the type for tasks
+  const [editTask, setEditTask] = useState<Task | null>(null); // Allow editTask to be null
 
   useEffect(() => {
     fetchTasks();
@@ -25,12 +32,14 @@ export default function TaskList() {
     }
   };
 
-  const handleEdit = (task) => {
-    setEditTask(task);  // Set task to edit mode
+  const handleEdit = (task: Task) => {
+    setEditTask(task); // Set task to edit mode
   };
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => { // Add type for e
     e.preventDefault();
+    if (!editTask) return; // Guard clause in case editTask is null
+
     const { title, description } = editTask;
 
     const res = await fetch(`/api/tasks/${editTask._id}`, {
@@ -42,7 +51,7 @@ export default function TaskList() {
     });
 
     if (res.ok) {
-      setEditTask(null);  // Exit edit mode after success
+      setEditTask(null); // Exit edit mode after success
       fetchTasks();
     }
   };
@@ -87,9 +96,7 @@ export default function TaskList() {
           />
           <textarea
             value={editTask.description}
-            onChange={(e) =>
-              setEditTask({ ...editTask, description: e.target.value })
-            }
+            onChange={(e) => setEditTask({ ...editTask, description: e.target.value })}
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
             rows={4}
           />
