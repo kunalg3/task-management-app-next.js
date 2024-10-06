@@ -6,7 +6,7 @@ export default function CreateTask() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)  => {
     e.preventDefault();
     const res = await fetch('/api/tasks', {
       method: 'POST',
