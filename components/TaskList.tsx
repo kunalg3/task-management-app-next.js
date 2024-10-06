@@ -1,6 +1,6 @@
 'use client';
 
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function TaskList() {
   const [tasks, setTasks] = useState([]);
@@ -48,28 +48,28 @@ export default function TaskList() {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Task List</h1>
-      <ul>
+    <div className="max-w-2xl mx-auto p-6">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Task List</h1>
+      <ul className="space-y-4">
         {tasks.map((task) => (
-          <li key={task._id} className="border-b py-2 flex justify-between">
+          <li key={task._id} className="bg-white p-4 rounded-lg shadow flex justify-between items-center">
             <div>
-              <h2>{task.title}</h2>
-              <p>{task.description}</p>
-              <p>Status: {task.status}</p>
+              <h2 className="text-xl font-semibold text-gray-900">{task.title}</h2>
+              <p className="text-gray-600">{task.description}</p>
+              <p className="text-sm text-gray-500">Status: {task.status}</p>
             </div>
-            <div>
-              <button
-                onClick={() => handleDelete(task._id)}
-                className="bg-red-500 text-white p-2 ml-4"
-              >
-                Delete
-              </button>
+            <div className="flex space-x-2">
               <button
                 onClick={() => handleEdit(task)}
-                className="bg-yellow-500 text-white p-2 ml-4"
+                className="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition"
               >
                 Edit
+              </button>
+              <button
+                onClick={() => handleDelete(task._id)}
+                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition"
+              >
+                Delete
               </button>
             </div>
           </li>
@@ -77,22 +77,23 @@ export default function TaskList() {
       </ul>
 
       {editTask && (
-        <form onSubmit={handleUpdate} className="space-y-4 mt-4">
-          <h3 className="text-xl font-bold">Edit Task</h3>
+        <form onSubmit={handleUpdate} className="space-y-4 mt-6 bg-gray-50 p-6 rounded-lg shadow-md">
+          <h3 className="text-xl font-bold text-gray-800">Edit Task</h3>
           <input
             type="text"
             value={editTask.title}
             onChange={(e) => setEditTask({ ...editTask, title: e.target.value })}
-            className="border p-2 w-full"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
           />
           <textarea
             value={editTask.description}
             onChange={(e) =>
               setEditTask({ ...editTask, description: e.target.value })
             }
-            className="border p-2 w-full"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
+            rows={4}
           />
-          <button type="submit" className="bg-green-500 text-white p-2">
+          <button type="submit" className="bg-green-500 text-white p-3 w-full rounded-lg hover:bg-green-600 transition">
             Update Task
           </button>
         </form>
