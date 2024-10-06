@@ -1,34 +1,44 @@
-import mongoose, { Mongoose } from 'mongoose';
+// Import mongoose
+import mongoose from 'mongoose';
 
 // Define the MongoDB URI from environment variables
 const MONGODB_URI = process.env.MONGODB_URI || '';
 
+// If the MongoDB URI is missing, throw an error
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-// Create a cached variable to hold the connection and promise
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null }; // Initialize if not present
+// Define an interface for the cached connection
+interface Cached {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
 }
 
-async function dbConnect(): Promise<Mongoose> {
+// Declare the mongoose cache on the global object
+declare global {
+  var mongoose: Cached;
+}
+
+// Initialize the cached variable from globalThis
+let cached: Cached = global.mongoose || { conn: null, promise: null };
+
+// If no cache exists on the global object, create one
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+// Function to connect to MongoDB using Mongoose
+async function dbConnect(): Promise<typeof mongoose> {
   // Return the cached connection if it exists
   if (cached.conn) {
     return cached.conn;
   }
 
-  // If there is no cached promise, create one
+  // If no cached promise exists, create one
   if (!cached.promise) {
-    const opts = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    };
-
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
-      return mongooseInstance; // Return the Mongoose instance
+    cached.promise = mongoose.connect(MONGODB_URI).then((mongooseInstance) => {
+      return mongooseInstance;
     });
   }
 
@@ -37,4 +47,5 @@ async function dbConnect(): Promise<Mongoose> {
   return cached.conn;
 }
 
+// Export the connection function as default
 export default dbConnect;
