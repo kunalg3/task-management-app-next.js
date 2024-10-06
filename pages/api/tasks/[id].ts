@@ -3,21 +3,20 @@ import Task from '../../../models/Task';
 
 export default async function handler(req, res) {
   await dbConnect();
+  const { id } = req.query;
 
-  if (req.method === 'POST') {
+  if (req.method === 'PUT') {
     try {
-      const { title, description } = req.body;
-      const newTask = new Task({ title, description });
-      await newTask.save();
-      res.status(201).json({ success: true, task: newTask });
+      const updatedTask = await Task.findByIdAndUpdate(id, req.body, { new: true });
+      res.status(200).json({ success: true, task: updatedTask });
     } catch (error) {
       res.status(400).json({ success: false });
     }
   }
-  if (req.method === 'GET') {
+  if (req.method === 'DELETE') {
     try {
-      const tasks = await Task.find({});
-      res.status(200).json({ success: true, tasks });
+      await Task.findByIdAndDelete(id);
+      res.status(200).json({ success: true });
     } catch (error) {
       res.status(400).json({ success: false });
     }
