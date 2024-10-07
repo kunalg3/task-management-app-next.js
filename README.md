@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Project Video Demo link - https://www.youtube.com/watch?v=whIf87VTD-s
 
-## Getting Started
+# Vehicle Movement on Map
 
-First, run the development server:
+This project is a Next.js app used for CRUD operation over task managemnet. This app is used to do CRUD operation over tasks.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Styling**: This app ensures good styling and simple UI for the user to do CRUD operation.
+- **Responsive Design**: The app's layout adjusts to fit the screen, ensuring all components are visible without scrolling.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js**: React framework that simplifies building fast and SEO-friendly web applications.
+- **Tailwind CSS**: Styling the application components.
 
-## Learn More
+## Installation and Setup
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/kunalg3/task-management-app-next.js.git
+2. Navigate to the project directory:
+    ```bash
+    cd task-management-app-next.js
+3. Install dependencies:
+    ```bash
+    npm install
+4. Create a .env file in the project root directory and add your OpenRouteService API key:
+    ```bash
+    MONGO_URI=your-mongodb-driver-link-here
+5. Start the development server:
+    ```bash
+    npm run dev
+6. Open the app in your browser on port 3000 or any other port:
+    http://localhost:3000
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How to Use
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. User Can create task with writing task title, details and status.
+2. As task created in the Database can be seen below in task list.
+3. Now user can edit the listed tasks and can delete also any task.
+4. User can also update the task status whether pending or in progress or completed.
 
-## Deploy on Vercel
+## Screenshot
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Task Management App](./)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Future Improvements
+
+- Add more customization for task management app and UI.
+- Provide an option to user registration and login for individual user task management.
+- Implement modern styling libraries for more modern look.
+
+## Contributing
+
+Feel free to fork this project, submit issues, or make pull requests for new features or bug fixes.
+
+## License
+This project is open-source under the MIT License.
