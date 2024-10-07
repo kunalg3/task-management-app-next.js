@@ -1,11 +1,20 @@
-import mongoose, { Schema, model, models } from 'mongoose';
+import mongoose from 'mongoose';
 
-const TaskSchema = new Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  status: { type: String, enum: ['pending', 'in progress', 'completed'], default: 'pending' },
-  createdAt: { type: Date, default: Date.now },
+const TaskSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: [true, 'Please add a title'],
+  },
+  description: {
+    type: String,
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'in-progress', 'completed'],
+    default: 'pending',
+  },
+}, {
+  timestamps: true,
 });
 
-const Task = models.Task || model('Task', TaskSchema);
-export default Task;
+export default mongoose.models.Task || mongoose.model('Task', TaskSchema);

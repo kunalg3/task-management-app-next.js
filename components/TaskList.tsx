@@ -10,8 +10,8 @@ interface Task {
 }
 
 export default function TaskList() {
-  const [tasks, setTasks] = useState<Task[]>([]); // Specify the type for tasks
-  const [editTask, setEditTask] = useState<Task | null>(null); // Allow editTask to be null
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [editTask, setEditTask] = useState<Task | null>(null);
 
   useEffect(() => {
     fetchTasks();
@@ -33,25 +33,25 @@ export default function TaskList() {
   };
 
   const handleEdit = (task: Task) => {
-    setEditTask(task); // Set task to edit mode
+    setEditTask(task);
   };
 
-  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => { // Add type for e
+  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!editTask) return; // Guard clause in case editTask is null
+    if (!editTask) return;
 
-    const { title, description } = editTask;
+    const { title, description, status } = editTask;
 
     const res = await fetch(`/api/tasks/${editTask._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, description }),
+      body: JSON.stringify({ title, description, status }),
     });
 
     if (res.ok) {
-      setEditTask(null); // Exit edit mode after success
+      setEditTask(null);
       fetchTasks();
     }
   };
@@ -61,7 +61,10 @@ export default function TaskList() {
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Task List</h1>
       <ul className="space-y-4">
         {tasks.map((task) => (
-          <li key={task._id} className="bg-white p-4 rounded-lg shadow flex justify-between items-center">
+          <li
+            key={task._id}
+            className="bg-white p-4 rounded-lg shadow flex justify-between items-center"
+          >
             <div>
               <h2 className="text-xl font-semibold text-gray-900">{task.title}</h2>
               <p className="text-gray-600">{task.description}</p>
@@ -86,21 +89,42 @@ export default function TaskList() {
       </ul>
 
       {editTask && (
-        <form onSubmit={handleUpdate} className="space-y-4 mt-6 bg-gray-50 p-6 rounded-lg shadow-md">
+        <form
+          onSubmit={handleUpdate}
+          className="space-y-4 mt-6 bg-gray-50 p-6 rounded-lg shadow-md"
+        >
           <h3 className="text-xl font-bold text-gray-800">Edit Task</h3>
           <input
             type="text"
             value={editTask.title}
-            onChange={(e) => setEditTask({ ...editTask, title: e.target.value })}
+            onChange={(e) =>
+              setEditTask({ ...editTask, title: e.target.value })
+            }
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
           />
           <textarea
             value={editTask.description}
-            onChange={(e) => setEditTask({ ...editTask, description: e.target.value })}
+            onChange={(e) =>
+              setEditTask({ ...editTask, description: e.target.value })
+            }
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
             rows={4}
           />
-          <button type="submit" className="bg-green-500 text-white p-3 w-full rounded-lg hover:bg-green-600 transition">
+          <select
+            value={editTask.status}
+            onChange={(e) =>
+              setEditTask({ ...editTask, status: e.target.value })
+            }
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
+          >
+            <option value="pending">Pending</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+          <button
+            type="submit"
+            className="bg-green-500 text-white p-3 w-full rounded-lg hover:bg-green-600 transition"
+          >
             Update Task
           </button>
         </form>
