@@ -25,7 +25,7 @@ This project is a Next.js app used for CRUD operation over task managemnet. This
 3. Install dependencies:
     ```bash
     npm install
-4. Create a .env file in the project root directory and add your OpenRouteService API key:
+4. Create a .env.local file in the project root directory and add your MogoDB database driver link:
     ```bash
     MONGO_URI=your-mongodb-driver-link-here
 5. Start the development server:
