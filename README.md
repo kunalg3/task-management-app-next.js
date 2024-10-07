@@ -1,6 +1,6 @@
 ## Project Video Demo link - https://www.youtube.com/watch?v=whIf87VTD-s
 
-# Vehicle Movement on Map
+# Task Management App - Next.js
 
 This project is a Next.js app used for CRUD operation over task managemnet. This app is used to do CRUD operation over tasks.
 
